@@ -5,7 +5,7 @@ declare module "express-serve-static-core" {
     user: {
       _id: mongoose.Types.ObjectId;
       email: string;
-      name: string;
+      username: string;
       pic: string;
       isAdmin: boolean;
     };

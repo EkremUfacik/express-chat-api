@@ -7,7 +7,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   const keyword = req.query.search
     ? {
         $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
+          { username: { $regex: req.query.search, $options: "i" } },
           { email: { $regex: req.query.search, $options: "i" } },
         ],
       }
@@ -50,7 +50,15 @@ export const login = async (req: Request, res: Response) => {
       httpOnly: true,
     });
 
-    return res.status(200).json(user);
+    const { _id, username, pic, isAdmin } = user;
+
+    return res.status(200).json({
+      _id,
+      username,
+      email: user.email,
+      pic,
+      isAdmin,
+    });
   } catch (error) {
     console.log(error);
     return res.sendStatus(400);
@@ -59,9 +67,9 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { email, password, name, pic } = req.body;
+    const { email, password, username, pic } = req.body;
 
-    if (!email || !password || !name) {
+    if (!email || !password || !username) {
       return res.status(400).json({ message: "Please fill in all fields" });
     }
 
@@ -76,7 +84,7 @@ export const register = async (req: Request, res: Response) => {
     const user = await User.create({
       email,
       password: hashedPassword,
-      name,
+      username,
       pic,
     });
 
