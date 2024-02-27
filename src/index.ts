@@ -44,15 +44,47 @@ const io = new Server(server, {
   },
 });
 
+// iki veya daha fazla kullanıcının mesajlaşması için gerekli olan socket.io kodları
+
 io.on("connection", (socket) => {
-  console.log(`Connected`);
+  console.log("Connected socket.io");
+  socket.on("setup", (id) => {
+    socket.join(id);
+    socket.emit("connected");
+    console.log(`Connected ${socket.id}`);
+  });
+
   socket.on("disconnect", () => {
     console.log(`Disconnected ${socket.id}`);
   });
 
-  socket.on("message", (msg) => {
-    console.log(msg);
-    socket.broadcast.emit("message", msg);
+  socket.on("join chat", (room) => {
+    console.log(`Joined room ${room}`);
+    socket.join(room);
+  });
+
+  socket.on("new message", (newMessage) => {
+    const chat = newMessage.chat;
+    if (!chat.users) return console.log("Chat.users not defined");
+
+    chat.users.forEach((user: any) => {
+      if (user._id == newMessage.sender._id) return;
+      socket.to(user._id).emit("new message", newMessage);
+      console.log("New message sending");
+    });
+  });
+
+  socket.on("is typing", (room) => {
+    socket.to(room).emit("is typing");
+  });
+
+  socket.on("stopped typing", (room) => {
+    socket.to(room).emit("stopped typing");
+  });
+
+  socket.off("setup", (id) => {
+    socket.leave(id);
+    socket.emit("disconnected setup");
   });
 });
 

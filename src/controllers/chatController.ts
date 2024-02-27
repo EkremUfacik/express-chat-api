@@ -18,6 +18,7 @@ export const accessChat = async (req: Request, res: Response) => {
       path: "latestMessage",
       populate: {
         path: "sender",
+        select: "-password",
       },
     });
 
