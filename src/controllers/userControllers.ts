@@ -50,6 +50,8 @@ export const login = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "none",
+      secure: true,
+      domain: "http://localhost:3000",
     });
 
     const { _id, username, pic, isAdmin } = user;
@@ -95,6 +97,8 @@ export const register = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "none",
+      secure: true,
+      domain: "http://localhost:3000",
     });
 
     return res.status(200).json(user);
