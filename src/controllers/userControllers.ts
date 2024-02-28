@@ -49,6 +49,7 @@ export const login = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
       httpOnly: true,
+      sameSite: "none",
     });
 
     const { _id, username, pic, isAdmin } = user;
@@ -93,6 +94,7 @@ export const register = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
       httpOnly: true,
+      sameSite: "none",
     });
 
     return res.status(200).json(user);
