@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import User from "../models/userModel";
 
 export const getAllUsers = async (req: Request, res: Response) => {
+  console.log("users fetched");
   const keyword = req.query.search
     ? {
         $or: [
