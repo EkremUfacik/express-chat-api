@@ -21,7 +21,7 @@ const server = createServer(app);
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "https://next-chats-app.vercel.app",
   })
 );
 
@@ -40,11 +40,9 @@ app.use("/api/message", messageRoutes);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://next-chats-app.vercel.app",
   },
 });
-
-// iki veya daha fazla kullanıcının mesajlaşması için gerekli olan socket.io kodları
 
 io.on("connection", (socket) => {
   console.log("Connected socket.io");
