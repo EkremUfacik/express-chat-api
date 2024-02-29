@@ -48,6 +48,7 @@ export const login = async (req: Request, res: Response) => {
     const token = generateToken(user._id.toString());
 
     res.cookie("token", token, {
+      domain: "https://next-chats-app.vercel.app",
       sameSite: "none",
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 10,
@@ -95,6 +96,7 @@ export const register = async (req: Request, res: Response) => {
     const token = generateToken(user._id.toString());
 
     res.cookie("token", token, {
+      domain: "https://next-chats-app.vercel.app",
       sameSite: "none",
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 10,
