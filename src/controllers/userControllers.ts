@@ -49,6 +49,9 @@ export const login = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
       sameSite: "none",
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 10,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 10),
     });
 
     const { _id, username, pic, isAdmin } = user;
@@ -93,6 +96,9 @@ export const register = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
       sameSite: "none",
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 10,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 10),
     });
 
     return res.status(200).json(user);
